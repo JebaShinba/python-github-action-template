@@ -6,6 +6,9 @@ on:
       - main
   schedule:
     - cron: '38 16 * * *'
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
