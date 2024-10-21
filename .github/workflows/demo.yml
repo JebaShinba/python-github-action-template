@@ -16,12 +16,12 @@ jobs:
     steps:
 
       - name: Checkout repository content
-        uses: actions/checkout@v2 # Checkout the repository content to the GitHub runner
+        uses: actions/checkout@v2 
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9' # Install the Python version needed
+          python-version: '3.9'
           
       - name: Install Python packages
         run: |
@@ -30,10 +30,15 @@ jobs:
           
       - name: Execute Python script
         run: python main.py
-          
+        
+      - name: Fetch latest changes
+        run: |
+          git fetch origin
+          git merge origin/main || true  # Prevents failure if there's nothing to merge
+
       - name: Commit files if there are changes
         run: |
-          git config --local user.email "jebashinba2001@gmail.com"
+          git config --local user.email "jebashinba2001@gmail.com "
           git config --local user.name "JebaShinba"
           git add -A
           git diff-index --quiet HEAD || (git commit -a -m "Updated logs" --allow-empty)
@@ -43,3 +48,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
+
